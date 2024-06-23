@@ -7,14 +7,15 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "247",
-  description: `toggle 24/7 system on/off`,
+  name: "autoresume",
+  description: `setup autoresume in your server`,
   userPermissions: PermissionFlagsBits.ManageGuild,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Settings",
   cooldown: 5,
   type: ApplicationCommandType.ChatInput,
-  inVoiceChannel: true,
+  cooldown: 5,
+  inVoiceChannel: false,
   inSameVoiceChannel: true,
   Player: false,
   djOnly: false,
@@ -28,30 +29,18 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    let data = await client.music.get(`${interaction.guild.id}.vc`);
-    let mode = data.enable;
-    let channel = interaction.member.voice.channel;
-
-    if (mode === true) {
-      let dataOptions = {
-        enable: false,
-        channel: null,
-      };
-      await client.music.set(`${interaction.guild.id}.vc`, dataOptions);
-      // if (player) await player.destroy();
+    let data = await client.music.get(`${interaction.guild.id}.autoresume`);
+    if (data === true) {
+      await client.music.set(`${interaction.guild.id}.autoresume`, false);
       client.embed(
         interaction,
-        `** ${client.config.emoji.ERROR}  24/7 System Disabled **`
+        `** ${client.config.emoji.ERROR} Autoresume System Disabled **`
       );
     } else {
-      let dataOptions = {
-        enable: true,
-        channel: channel.id,
-      };
-      await client.music.set(`${interaction.guild.id}.vc`, dataOptions);
+      await client.music.set(`${interaction.guild.id}.autoresume`, true);
       client.embed(
         interaction,
-        `** ${client.config.emoji.SUCCESS} 24/7 System Enabled **`
+        `** ${client.config.emoji.SUCCESS} Autoresume System Enabled **`
       );
     }
   },
