@@ -1,11 +1,12 @@
 const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
+const { links } = require("../../../settings/config");
 
 module.exports = {
-  name: "help",
-  aliases: ["h", "cmds", "commands"],
-  description: `need help ? see my all commands`,
+  name: "invite",
+  aliases: ["inv", "addme"],
+  description: `Get My Invite Link For Add me !!`,
   userPermissions: PermissionFlagsBits.SendMessages,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
@@ -25,7 +26,12 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    // await client.handleHelpSystem(message);
-    await client.HelpCommand(message);
+    client.embed(
+      message,
+      `[\`Click to Invite Me\`](${links.inviteURL.replace(
+        "BOTID",
+        client.user.id
+      )})`
+    );
   },
 };
