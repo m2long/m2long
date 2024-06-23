@@ -1,11 +1,12 @@
 const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
+const { skip } = require("../../../handlers/functions");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "skip",
+  aliases: ["s", "skp"],
+  description: `skip to next song in queue`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
@@ -25,11 +26,7 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
-    client.embed(
-      message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
-    );
+    await skip(queue);
+    client.embed(message, `${client.config.emoji.SUCCESS}  Song Skipped !!`);
   },
 };

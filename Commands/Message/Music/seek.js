@@ -3,9 +3,9 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "seek",
+  aliases: ["sk"],
+  description: `seek then current song`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
@@ -25,11 +25,15 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
-    client.embed(
-      message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
-    );
+    let seek = Number(args[0]);
+    if (!seek) {
+      return client.embed(message, `Please Provide Seek Duration in Seconds`);
+    } else {
+      queue.seek(seek);
+      client.embed(
+        message,
+        `${client.config.emoji.SUCCESS} Seeked \`${seek}\` Seconds !!`
+      );
+    }
   },
 };

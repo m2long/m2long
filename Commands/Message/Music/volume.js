@@ -3,9 +3,9 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "volume",
+  aliases: ["vol"],
+  description: `change volume of current queue`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
@@ -25,11 +25,23 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
-    client.embed(
-      message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
-    );
+    let volume = Number(args[0]);
+    if (!volume) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} Please Provide Volume %`
+      );
+    } else if (volume > 250) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} Provide Volume Amount Between 1 - 250  !!`
+      );
+    } else {
+      await queue.setVolume(volume);
+      client.embed(
+        message,
+        `${client.config.emoji.SUCCESS} Volume Set to ${queue.volume}% !!`
+      );
+    }
   },
 };
