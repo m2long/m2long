@@ -3,9 +3,9 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "help",
-  aliases: ["h", "cmds", "commands"],
-  description: `need help ? see my all commands`,
+  name: "uptime",
+  aliases: ["up"],
+  description: `see when bot comes online`,
   userPermissions: PermissionFlagsBits.SendMessages,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
@@ -25,7 +25,9 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    // await client.handleHelpSystem(message);
-    await client.HelpCommand(message);
+    client.embed(
+      message,
+      `Uptime :: <t:${Math.floor(Date.now() / 1000 - client.uptime / 1000)}:R>`
+    );
   },
 };
