@@ -7,8 +7,8 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "help",
-  description: `need help ? here is my all commands`,
+  name: "ping",
+  description: `get ping of bot`,
   userPermissions: PermissionFlagsBits.SendMessages,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
@@ -28,7 +28,6 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    // await client.handleHelpSystem(interaction);
-    await client.HelpCommand(interaction);
+    client.embed(interaction, `Ping :: \`${client.ws.ping}\``);
   },
 };
