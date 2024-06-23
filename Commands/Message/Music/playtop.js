@@ -3,16 +3,16 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "playtop",
+  aliases: ["pt", "ptop"],
+  description: `play top songs by Name/Link`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
-  Player: true,
+  Player: false,
   djOnly: true,
 
   /**
@@ -25,11 +25,20 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
-    client.embed(
-      message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
-    );
+    let song = args.join(" ");
+    if (!song) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} You Need Provide Song Name/Link`
+      );
+    } else {
+      let { channel } = message.member.voice;
+      client.distube.play(channel, song, {
+        member: message.member,
+        textChannel: message.channel,
+        message: message,
+        unshift: true,
+      });
+    }
   },
 };

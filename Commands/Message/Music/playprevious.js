@@ -3,9 +3,9 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "playprevious",
+  aliases: ["pp", "playp"],
+  description: `play previous song of queue`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
@@ -25,11 +25,18 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
-    client.embed(
-      message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
-    );
+    if (!queue.previousSongs.length) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} Previous Song Not Found !!`
+      );
+    } else {
+      await queue.previous().then((m) => {
+        client.embed(
+          message,
+          `${client.config.emoji.SUCCESS} Playing Previous Track !!`
+        );
+      });
+    }
   },
 };

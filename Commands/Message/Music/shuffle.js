@@ -3,9 +3,9 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "autoplay",
-  aliases: ["ap", "atp"],
-  description: `toggle autoplay in your server`,
+  name: "shuffle",
+  aliases: ["sfl"],
+  description: `shuffle current queue`,
   userPermissions: PermissionFlagsBits.Connect,
   botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
@@ -25,11 +25,11 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let autoplay = queue.toggleAutoplay();
-
+    client.shuffleData.set(`shuffle-${queue.id}`, queue.songs.slice(1));
+    queue.shuffle();
     client.embed(
       message,
-      `${client.config.emoji.SUCCESS} AutoPlay: \`${autoplay ? "On" : "Off"}\``
+      `${client.config.emoji.SUCCESS} Suffled ${queue.songs.length} Songs !!`
     );
   },
 };
