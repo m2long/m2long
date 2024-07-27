@@ -1,7 +1,21 @@
-module.exports = {
-  TOKEN: process.env.TOKEN ||"",
-  PREFIX: process.env.PREFIX || "m",
-  embed: {
+import discord
+from discord.ext import commands
+
+# Set up the bot
+bot = commands.Bot(command_prefix='!')
+
+# Event when the bot is ready
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user.name}')
+
+# Command example
+@bot.command(name='hello')
+async def hello(ctx):
+    await ctx.send('Hello!')
+
+# Run the bot with your token
+bot.run('YOUR_BOT_TOKEN')
     color: process.env.color || "#220f80",
     wrongcolor: process.env.wrongcolor || "#8a0808",
     footertext: "Coded By Kabir Singh | Tech Boy Development",
